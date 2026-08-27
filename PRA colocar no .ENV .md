@@ -7,6 +7,7 @@ DOMINIOS_INSTITUCIONAIS=academico.ifsul.edu.br
 LIMITE_PDF_MB=5
 
 //Usadas apenas pelo comando npm run criar-admin//
+
 ADMIN_NOME=Administrador StartIF
 ADMIN_EMAIL=admin@startif.local
 ADMIN_SENHA=senha@2026
