@@ -1,0 +1,97 @@
+<%- include('../partials/cabecalho', { titulo: 'Avaliação final' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Avaliação final</h1>
+
+            <p class="muted">
+                Conte como foi sua experiência de estágio.
+            </p>
+        </div>
+
+        <% if (candidaturas.length) { %>
+            <div class="card form-card">
+
+                <form method="post" action="/avaliacoes" class="form-grid">
+
+                    <div class="field">
+                        <label>Estágio</label>
+
+                        <select name="candidatura" required>
+                            <% candidaturas.forEach(c => { %>
+                                <option value="<%= c._id %>">
+                                    <%= c.vaga.titulo %> —
+                                    <%= c.vaga.empresa?.nomeFantasia %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Nota</label>
+
+                        <select name="nota" required>
+                            <% [5,4,3,2,1].forEach(n => { %>
+                                <option value="<%= n %>">
+                                    <%= n %> estrela(s)
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label>Comentário</label>
+
+                        <textarea name="comentario" required></textarea>
+                    </div>
+
+                    <button class="btn">
+                        Enviar avaliação
+                    </button>
+
+                </form>
+
+            </div>
+        <% } %>
+
+        <div class="grid" style="margin-top:24px">
+
+            <% avaliacoes.forEach(a => { %>
+                <article class="card">
+
+                    <div class="stars">
+                        <%= '★'.repeat(a.nota) %>
+                        <%= '☆'.repeat(5-a.nota) %>
+                    </div>
+
+                    <h3>
+                        <%= a.vaga?.titulo %>
+                    </h3>
+
+                    <p>
+                        <%= a.comentario %>
+                    </p>
+
+                    <small class="muted">
+                        <%= a.tipo.replaceAll('_',' ') %>
+                        ·
+                        <%= formatarData(a.data) %>
+                    </small>
+
+                </article>
+            <% }) %>
+
+        </div>
+
+        <% if (!candidaturas.length && !avaliacoes.length) { %>
+            <div class="empty">
+                Nenhum estágio selecionado para avaliação.
+            </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

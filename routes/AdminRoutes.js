@@ -1,0 +1,17 @@
+import express from 'express';
+import AdminController from '../controllers/AdminController.js';
+import { autenticado, autorizar } from '../middlewares/autenticacao.js';
+const router = express.Router();
+router.use('/admin', autenticado, autorizar('ADMIN'));
+router.get('/admin', AdminController.painel);
+router.get('/admin/usuarios', AdminController.usuarios);
+router.post('/admin/usuarios/:id/alternar', AdminController.alternarUsuario);
+router.get('/admin/empresas', AdminController.empresas);
+router.post('/admin/empresas/:id/status', AdminController.statusEmpresa);
+router.get('/admin/cadastros', AdminController.cadastros);
+router.post('/admin/campi', AdminController.criarCampus);
+router.post('/admin/areas', AdminController.criarArea);
+router.post('/admin/cursos', AdminController.criarCurso);
+router.post('/admin/cadastros/:tipo/:id/alternar', AdminController.alternarCadastro);
+router.get('/admin/relatorios', AdminController.relatorios);
+export default router;

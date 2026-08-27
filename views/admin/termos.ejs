@@ -1,0 +1,102 @@
+```ejs id="c5n9r2"
+<%- include('../partials/cabecalho', { titulo: 'Termos e documentos' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Termos e documentos</h1>
+            <p class="muted">
+                Confira os PDFs obrigatórios e aprove ou reprove o termo.
+            </p>
+        </div>
+
+        <div class="stack">
+
+            <% termos.forEach(t => { %>
+                <article class="card">
+
+                    <div class="section-heading">
+                        <div>
+                            <h2><%= t.estudante.usuario.nome %></h2>
+                            <p>
+                                <%= t.candidatura?.vaga?.titulo %>
+                                ·
+                                <%= t.empresa?.nomeFantasia %>
+                            </p>
+                        </div>
+
+                        <span class="badge <%= t.status.toLowerCase() %>">
+                            <%= t.status %>
+                        </span>
+                    </div>
+
+                    <p>
+                        <strong>Plano de atividades:</strong>
+                        <%= t.planoAtividades %>
+                    </p>
+
+                    <h3>Documentos</h3>
+
+                    <% if (t.documentos.length) { %>
+                        <ul>
+
+                            <% t.documentos.forEach(d => { %>
+                                <li>
+                                    <a href="/termos/documentos/<%= d._id %>">
+                                        <%= d.nome %> — <%= d.nomeOriginal %>
+                                    </a>
+
+                                    <span class="badge <%= d.validado ? 'aprovado' : 'pendente' %>">
+                                        <%= d.validado ? 'VALIDADO' : 'AGUARDANDO' %>
+                                    </span>
+                                </li>
+                            <% }) %>
+
+                        </ul>
+                    <% } else { %>
+                        <p class="muted">
+                            Nenhum documento enviado.
+                        </p>
+                    <% } %>
+
+                    <form
+                        method="post"
+                        action="/termos/<%= t._id %>/analisar"
+                        class="form-grid"
+                    >
+
+                        <div class="field full">
+                            <label>
+                                Justificativa (obrigatória ao reprovar)
+                            </label>
+
+                            <textarea name="justificativa"><%= t.justificativa || '' %></textarea>
+                        </div>
+
+                        <button class="btn" name="decisao" value="aprovar">
+                            Aprovar termo
+                        </button>
+
+                        <button class="btn btn-danger" name="decisao" value="reprovar">
+                            Reprovar termo
+                        </button>
+
+                    </form>
+
+                </article>
+            <% }) %>
+
+        </div>
+
+        <% if (!termos.length) { %>
+            <div class="empty">
+                Nenhum termo solicitado.
+            </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>
+```

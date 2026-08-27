@@ -1,0 +1,54 @@
+<%- include('../partials/cabecalho', { titulo: 'Notificações' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Notificações</h1>
+
+            <p class="muted">
+                Atualizações sobre vagas, candidaturas e termos.
+            </p>
+        </div>
+
+        <div class="stack">
+
+            <% notificacoes.forEach(n => { %>
+                <a
+                    class="card notification <%= n.lida ? '' : 'nao-lida' %>"
+                    href="/notificacoes/<%= n._id %>/ler"
+                >
+
+                    <div class="section-heading">
+                        <h3>
+                            <%= n.titulo %>
+                        </h3>
+
+                        <span class="badge <%= n.lida ? '' : 'aberta' %>">
+                            <%= n.lida ? 'LIDA' : 'NOVA' %>
+                        </span>
+                    </div>
+
+                    <p>
+                        <%= n.mensagem %>
+                    </p>
+
+                    <small class="muted">
+                        <%= formatarData(n.data) %>
+                    </small>
+
+                </a>
+            <% }) %>
+
+        </div>
+
+        <% if (!notificacoes.length) { %>
+            <div class="empty">
+                Você não tem notificações.
+            </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

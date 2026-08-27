@@ -1,0 +1,11 @@
+import express from 'express';
+import TermoController from '../controllers/TermoController.js';
+import { uploadDocumento } from '../config/upload.js';
+import { autenticado, autorizar } from '../middlewares/autenticacao.js';
+const router = express.Router();
+router.get('/termos', autenticado, TermoController.listar);
+router.post('/termos', autenticado, autorizar('ESTUDANTE'), TermoController.solicitar);
+router.post('/termos/:id/documentos', autenticado, autorizar('ESTUDANTE'), uploadDocumento.single('documento'), TermoController.enviarDocumento);
+router.get('/termos/documentos/:documentoId', autenticado, TermoController.documento);
+router.post('/termos/:id/analisar', autenticado, autorizar('ADMIN'), TermoController.analisar);
+export default router;

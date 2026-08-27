@@ -1,0 +1,68 @@
+<%- include('../partials/cabecalho', { titulo: 'Painel da empresa' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <span class="eyebrow">Área da empresa</span>
+
+            <h1>
+                <%= empresa.nomeFantasia %>
+            </h1>
+
+            <p class="muted">
+                Cadastro
+                <span class="badge <%= empresa.statusCadastro.toLowerCase() %>">
+                    <%= empresa.statusCadastro %>
+                </span>
+            </p>
+        </div>
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong><%= vagasAbertas %></strong>
+                <span>vagas abertas</span>
+            </div>
+
+            <div class="metric">
+                <strong><%= candidaturas %></strong>
+                <span>candidaturas</span>
+            </div>
+
+            <div class="metric">
+                <strong><%= convenio?.status || '—' %></strong>
+                <span>convênio</span>
+            </div>
+
+        </div>
+
+        <div class="grid" style="margin-top:35px">
+
+            <a class="card" href="/empresa/vagas/nova">
+                <h2>Publicar vaga</h2>
+                <p>
+                    Cadastre uma oportunidade para validação do IFSul.
+                </p>
+            </a>
+
+            <a class="card" href="/empresa/vagas">
+                <h2>Gerenciar vagas</h2>
+                <p>
+                    Edite anúncios e veja os estudantes candidatos.
+                </p>
+            </a>
+
+            <a class="card" href="/termos">
+                <h2>Acompanhar termos</h2>
+                <p>
+                    Consulte os termos dos estudantes selecionados.
+                </p>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

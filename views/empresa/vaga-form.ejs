@@ -1,0 +1,154 @@
+<%- include('../partials/cabecalho', { titulo: vaga ? 'Editar vaga' : 'Nova vaga' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>
+                <%= vaga ? 'Editar vaga' : 'Publicar nova vaga' %>
+            </h1>
+
+            <p class="muted">
+                Toda criação ou edição retorna ao status PENDENTE VALIDAÇÃO.
+            </p>
+        </div>
+
+        <div class="card form-card">
+            <form method="post" class="form-grid">
+
+                <div class="field full">
+                    <label>Título *</label>
+                    <input
+                        name="titulo"
+                        value="<%= vaga?.titulo || '' %>"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <label>Descrição *</label>
+                    <textarea
+                        name="descricao"
+                        required
+                    ><%= vaga?.descricao || '' %></textarea>
+                </div>
+
+                <div class="field">
+                    <label>Área de atuação *</label>
+
+                    <select name="areaAtuacao" required>
+                        <option value="">Selecione</option>
+
+                        <% areas.forEach(a => { %>
+                            <option
+                                value="<%= a._id %>"
+                                <%= String(vaga?.areaAtuacao || '') === String(a._id) ? 'selected' : '' %>
+                            >
+                                <%= a.nome %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Campus relacionado *</label>
+
+                    <select name="campus" required>
+                        <option value="">Selecione</option>
+
+                        <% campi.forEach(c => { %>
+                            <option
+                                value="<%= c._id %>"
+                                <%= String(vaga?.campus || '') === String(c._id) ? 'selected' : '' %>
+                            >
+                                <%= c.nome %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Bolsa (R$) *</label>
+
+                    <input
+                        name="bolsa"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value="<%= vaga?.bolsa ?? '' %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Carga horária semanal *</label>
+
+                    <input
+                        name="cargaHoraria"
+                        type="number"
+                        min="1"
+                        max="40"
+                        value="<%= vaga?.cargaHoraria || '' %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Localização *</label>
+
+                    <input
+                        name="localizacao"
+                        value="<%= vaga?.localizacao || '' %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Prazo *</label>
+
+                    <input
+                        name="prazo"
+                        type="date"
+                        value="<%= vaga?.prazo ? new Date(vaga.prazo).toISOString().slice(0,10) : '' %>"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <label>Requisitos *</label>
+
+                    <textarea
+                        name="requisitos"
+                        required
+                    ><%= vaga?.requisitos || '' %></textarea>
+                </div>
+
+                <div class="field full">
+                    <label>Cursos compatíveis *</label>
+
+                    <div class="grid-2">
+                        <% cursos.forEach(c => { const marcado = vaga?.cursosCompativeis?.some(id => String(id) === String(c._id)); %>
+                            <label class="tag">
+                                <input
+                                    type="checkbox"
+                                    name="cursosCompativeis"
+                                    value="<%= c._id %>"
+                                    <%= marcado ? 'checked' : '' %>
+                                >
+                                <%= c.nome %> — <%= c.campus?.nome %>
+                            </label>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <button class="btn">
+                    <%= vaga ? 'Salvar e reenviar' : 'Enviar para validação' %>
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

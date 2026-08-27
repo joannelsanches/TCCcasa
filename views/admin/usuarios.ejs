@@ -1,0 +1,95 @@
+```ejs id="q8w4m1"
+<%- include('../partials/cabecalho', { titulo: 'Usuários' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Gerenciar usuários</h1>
+            <p class="muted">
+                Ative ou desative contas sem apagar os registros vinculados.
+            </p>
+        </div>
+
+        <form method="get" class="actions">
+            <select name="tipo">
+                <option value="">
+                    Todos os perfis
+                </option>
+
+                <% ['ESTUDANTE','EMPRESA','ADMIN'].forEach(t => { %>
+                    <option <%= tipo == t ? 'selected' : '' %>>
+                        <%= t %>
+                    </option>
+                <% }) %>
+            </select>
+
+            <button class="btn btn-small">
+                Filtrar
+            </button>
+        </form>
+
+        <div class="table-wrap" style="margin-top:20px">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                        <th>Cadastro</th>
+                        <th>Situação</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% usuarios.forEach(u => { %>
+                        <tr>
+
+                            <td>
+                                <%= u.nome %>
+                            </td>
+
+                            <td>
+                                <%= u.email %>
+                            </td>
+
+                            <td>
+                                <%= u.tipo %>
+                            </td>
+
+                            <td>
+                                <%= formatarData(u.dataCriacao) %>
+                            </td>
+
+                            <td>
+                                <span class="badge <%= u.ativo ? 'ativo' : 'inativo' %>">
+                                    <%= u.ativo ? 'ATIVO' : 'INATIVO' %>
+                                </span>
+                            </td>
+
+                            <td>
+                                <form
+                                    method="post"
+                                    action="/admin/usuarios/<%= u._id %>/alternar"
+                                    data-confirmar="Confirma a alteração desta conta?"
+                                >
+                                    <button class="btn btn-small <%= u.ativo ? 'btn-danger' : '' %>">
+                                        <%= u.ativo ? 'Desativar' : 'Ativar' %>
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>
+```

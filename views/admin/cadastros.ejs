@@ -1,0 +1,175 @@
+```ejs
+<%- include('../partials/cabecalho', { titulo: 'Cursos, campi e áreas' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Cadastros institucionais</h1>
+            <p class="muted">
+                Gerencie campi, áreas de atuação e cursos usados nos filtros.
+            </p>
+        </div>
+
+        <div class="grid">
+
+            <form class="card stack" method="post" action="/admin/campi">
+                <h2>Novo campus</h2>
+
+                <div class="field">
+                    <label>Nome</label>
+                    <input name="nome" required>
+                </div>
+
+                <div class="field">
+                    <label>Cidade</label>
+                    <input name="cidade" required>
+                </div>
+
+                <button class="btn">Cadastrar</button>
+            </form>
+
+            <form class="card stack" method="post" action="/admin/areas">
+                <h2>Nova área</h2>
+
+                <div class="field">
+                    <label>Nome</label>
+                    <input name="nome" required>
+                </div>
+
+                <button class="btn">Cadastrar</button>
+            </form>
+
+            <form class="card stack" method="post" action="/admin/cursos">
+                <h2>Novo curso</h2>
+
+                <div class="field">
+                    <label>Nome</label>
+                    <input name="nome" required>
+                </div>
+
+                <div class="field">
+                    <label>Nível</label>
+                    <select name="nivel">
+                        <option>TÉCNICO</option>
+                        <option>SUPERIOR</option>
+                        <option>PÓS-GRADUAÇÃO</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Campus</label>
+                    <select name="campus" required>
+                        <% campi.forEach(c => { %>
+                            <option value="<%= c._id %>">
+                                <%= c.nome %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Áreas relacionadas</label>
+                    <select name="areasRelacionadas" multiple>
+                        <% areas.forEach(a => { %>
+                            <option value="<%= a._id %>">
+                                <%= a.nome %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <button class="btn">Cadastrar</button>
+            </form>
+
+        </div>
+
+        <h2 style="margin-top:35px">Itens cadastrados</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>Campi</h3>
+
+                <% campi.forEach(c => { %>
+                    <p>
+                        <strong><%= c.nome %></strong> —
+                        <%= c.cidade %>
+
+                        <span class="badge <%= c.ativo ? 'ativo' : 'inativo' %>">
+                            <%= c.ativo ? 'ATIVO' : 'INATIVO' %>
+                        </span>
+
+                        <form
+                            class="inline-form"
+                            method="post"
+                            action="/admin/cadastros/campus/<%= c._id %>/alternar"
+                        >
+                            <button class="btn btn-small btn-secondary">
+                                Alternar
+                            </button>
+                        </form>
+                    </p>
+                <% }) %>
+            </div>
+
+            <div class="card">
+                <h3>Áreas</h3>
+
+                <% areas.forEach(a => { %>
+                    <p>
+                        <%= a.nome %>
+
+                        <span class="badge <%= a.ativo ? 'ativo' : 'inativo' %>">
+                            <%= a.ativo ? 'ATIVA' : 'INATIVA' %>
+                        </span>
+
+                        <form
+                            class="inline-form"
+                            method="post"
+                            action="/admin/cadastros/area/<%= a._id %>/alternar"
+                        >
+                            <button class="btn btn-small btn-secondary">
+                                Alternar
+                            </button>
+                        </form>
+                    </p>
+                <% }) %>
+            </div>
+
+            <div class="card">
+                <h3>Cursos</h3>
+
+                <% cursos.forEach(c => { %>
+                    <p>
+                        <strong><%= c.nome %></strong>
+                        <br>
+
+                        <small>
+                            <%= c.nivel %> · <%= c.campus?.nome %>
+                        </small>
+
+                        <span class="badge <%= c.ativo ? 'ativo' : 'inativo' %>">
+                            <%= c.ativo ? 'ATIVO' : 'INATIVO' %>
+                        </span>
+
+                        <form
+                            class="inline-form"
+                            method="post"
+                            action="/admin/cadastros/curso/<%= c._id %>/alternar"
+                        >
+                            <button class="btn btn-small btn-secondary">
+                                Alternar
+                            </button>
+                        </form>
+                    </p>
+                <% }) %>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>
+```

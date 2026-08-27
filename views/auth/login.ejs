@@ -1,0 +1,38 @@
+<%- include('../partials/cabecalho', { titulo: 'Entrar' }) %>
+
+    <section class="login-shell">
+        <div class="card login-card">
+
+            <span class="eyebrow">Acesso seguro</span>
+
+            <h1>Entrar no StartIF</h1>
+
+            <form method="post" action="/login" class="stack">
+
+                <div class="field">
+                    <label for="email">E-mail</label>
+
+                    <input id="email" name="email" type="email" required autocomplete="email">
+                </div>
+
+                <div class="field">
+                    <label for="senha">Senha</label>
+
+                    <input id="senha" name="senha" type="password" required autocomplete="current-password">
+                </div>
+
+                <button class="btn">
+                    Entrar
+                </button>
+
+            </form>
+
+            <p class="muted">
+                Ainda não tem conta?
+                <a href="/cadastro">Cadastre-se</a>.
+            </p>
+
+        </div>
+    </section>
+
+    <%- include('../partials/rodape') %>

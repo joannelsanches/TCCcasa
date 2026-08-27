@@ -1,0 +1,84 @@
+<%- include('../partials/cabecalho', { titulo: 'Cadastro de estudante' }) %>
+
+  <section class="section">
+    <div class="container">
+      <div class="page-header">
+        <h1>Cadastro de estudante</h1>
+        <p class="muted">Use seu e-mail institucional e dados acadêmicos.</p>
+      </div>
+
+      ```
+      <div class="card form-card">
+        <% if (!cursos.length || !campi.length) { %>
+          <div class="alert erro">
+            Os cursos e campi ainda não foram cadastrados pelo administrador.
+          </div>
+          <% } %>
+
+            <form method="post" class="form-grid">
+              <div class="field full">
+                <label>Nome completo *</label>
+                <input name="nome" required>
+              </div>
+
+              <div class="field">
+                <label>E-mail institucional *</label>
+                <input name="email" type="email" required>
+              </div>
+
+              <div class="field">
+                <label>Matrícula *</label>
+                <input name="matricula" required>
+              </div>
+
+              <div class="field">
+                <label>CPF *</label>
+                <input name="cpf" inputmode="numeric" maxlength="14" required>
+              </div>
+
+              <div class="field">
+                <label>Curso *</label>
+                <select name="curso" required>
+                  <option value="">Selecione</option>
+                  <% cursos.forEach(c=> { %>
+                    <option value="<%= c._id %>">
+                      <%= c.nome %>
+                    </option>
+                    <% }) %>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Campus *</label>
+                <select name="campus" required>
+                  <option value="">Selecione</option>
+                  <% campi.forEach(c=> { %>
+                    <option value="<%= c._id %>">
+                      <%= c.nome %> — <%= c.cidade %>
+                    </option>
+                    <% }) %>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Senha *</label>
+                <input name="senha" type="password" minlength="8" required>
+                <small class="help">Mínimo de 8 caracteres.</small>
+              </div>
+
+              <div class="field">
+                <label>Confirmar senha *</label>
+                <input name="confirmarSenha" type="password" minlength="8" required>
+              </div>
+
+              <div class="field full">
+                <button class="btn">Criar conta</button>
+              </div>
+            </form>
+      </div>
+      ```
+
+    </div>
+  </section>
+
+  <%- include('../partials/rodape') %>

@@ -1,0 +1,177 @@
+<%- include('../partials/cabecalho', { titulo: 'Vagas' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Vagas abertas</h1>
+
+            <p class="muted">
+                Pesquise oportunidades validadas pelo IFSul.
+            </p>
+        </div>
+
+        <form class="card filter-bar" method="get">
+
+            <div class="field">
+                <label>Palavra-chave ou empresa</label>
+
+                <input
+                    name="q"
+                    value="<%= filtros.q || '' %>"
+                    placeholder="Ex.: suporte, programação..."
+                >
+            </div>
+
+            <div class="field">
+                <label>Curso</label>
+
+                <select name="curso">
+                    <option value="">Todos</option>
+
+                    <% cursos.forEach(c => { %>
+                        <option
+                            value="<%= c._id %>"
+                            <%= String(filtros.curso || '') === String(c._id) ? 'selected' : '' %>
+                        >
+                            <%= c.nome %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Campus</label>
+
+                <select name="campus">
+                    <option value="">Todos</option>
+
+                    <% campi.forEach(c => { %>
+                        <option
+                            value="<%= c._id %>"
+                            <%= String(filtros.campus || '') === String(c._id) ? 'selected' : '' %>
+                        >
+                            <%= c.nome %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Área</label>
+
+                <select name="area">
+                    <option value="">Todas</option>
+
+                    <% areas.forEach(a => { %>
+                        <option
+                            value="<%= a._id %>"
+                            <%= String(filtros.area || '') === String(a._id) ? 'selected' : '' %>
+                        >
+                            <%= a.nome %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Localização</label>
+
+                <input
+                    name="localizacao"
+                    value="<%= filtros.localizacao || '' %>"
+                >
+            </div>
+
+            <button class="btn">
+                Filtrar
+            </button>
+
+        </form>
+
+        <div class="section-heading" style="margin-top:28px">
+
+            <h2>
+                <%= vagas.length %> oportunidade(s)
+            </h2>
+
+            <a href="/vagas">
+                Limpar filtros
+            </a>
+
+        </div>
+
+        <div class="grid">
+
+            <% vagas.forEach(vaga => { %>
+
+                <article class="card job-card">
+
+                    <div>
+
+                        <span class="tag">
+                            <%= vaga.areaAtuacao?.nome %>
+                        </span>
+
+                        <h3>
+                            <%= vaga.titulo %>
+                        </h3>
+
+                        <p>
+                            <strong>
+                                <%= vaga.empresa?.nomeFantasia %>
+                            </strong>
+                        </p>
+
+                        <div class="job-meta">
+
+                            <span class="tag">
+                                <%= vaga.localizacao %>
+                            </span>
+
+                            <span class="tag">
+                                <%= vaga.cargaHoraria %>h/semana
+                            </span>
+
+                            <span class="tag">
+                                <%= formatarMoeda(vaga.bolsa) %>
+                            </span>
+
+                        </div>
+
+                        <p class="muted">
+                            Prazo:
+                            <%= formatarData(vaga.prazo) %>
+                        </p>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <a
+                            class="btn btn-secondary"
+                            href="/vagas/<%= vaga._id %>"
+                        >
+                            Ver vaga
+                        </a>
+
+                    </div>
+
+                </article>
+
+            <% }) %>
+
+        </div>
+
+        <% if (!vagas.length) { %>
+
+            <div class="empty">
+                Nenhuma vaga corresponde aos filtros informados.
+            </div>
+
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

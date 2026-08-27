@@ -1,0 +1,132 @@
+<%- include('../partials/cabecalho', { titulo: 'Minhas vagas' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-heading">
+            <div class="page-header">
+                <h1>Minhas vagas</h1>
+
+                <p class="muted">
+                    Gerencie anúncios e candidatos sem acessar dados de outras empresas.
+                </p>
+            </div>
+
+            <a class="btn" href="/empresa/vagas/nova">
+                + Nova vaga
+            </a>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Área</th>
+                        <th>Prazo</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% vagas.forEach(v => { %>
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    <%= v.titulo %>
+                                </strong>
+
+                                <% if (v.justificativaValidacao) { %>
+                                    <br>
+                                    <small class="muted">
+                                        <%= v.justificativaValidacao %>
+                                    </small>
+                                <% } %>
+                            </td>
+
+                            <td>
+                                <%= v.areaAtuacao?.nome %>
+                            </td>
+
+                            <td>
+                                <%= formatarData(v.prazo) %>
+                            </td>
+
+                            <td>
+                                <span class="badge <%= v.status.toLowerCase() %>">
+                                    <%= v.status.replaceAll('_',' ') %>
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="actions" style="margin:0">
+
+                                    <a
+                                        class="btn btn-small btn-secondary"
+                                        href="/empresa/vagas/<%= v._id %>/editar"
+                                    >
+                                        Editar
+                                    </a>
+
+                                    <a
+                                        class="btn btn-small btn-secondary"
+                                        href="/empresa/candidatos/<%= v._id %>"
+                                    >
+                                        Candidatos
+                                    </a>
+
+                                    <form
+                                        method="post"
+                                        action="/empresa/vagas/<%= v._id %>/situacao"
+                                        data-confirmar="Confirma o fechamento da vaga?"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="acao"
+                                            value="fechar"
+                                        >
+
+                                        <button class="btn btn-small">
+                                            Fechar
+                                        </button>
+                                    </form>
+
+                                    <form
+                                        method="post"
+                                        action="/empresa/vagas/<%= v._id %>/situacao"
+                                        data-confirmar="Remover esta vaga dos anúncios?"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="acao"
+                                            value="cancelar"
+                                        >
+
+                                        <button class="btn btn-small btn-danger">
+                                            Remover
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+        <% if (!vagas.length) { %>
+            <div class="empty">
+                Nenhuma vaga cadastrada.
+            </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

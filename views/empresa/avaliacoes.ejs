@@ -1,0 +1,102 @@
+```ejs id="h7m4q2"
+<%- include('../partials/cabecalho', { titulo: 'Avaliações de desempenho' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Avaliar estagiário</h1>
+            <p class="muted">
+                Registre uma nota e um comentário sobre o desempenho.
+            </p>
+        </div>
+
+        <% if (candidaturas.length) { %>
+            <div class="card form-card">
+
+                <form
+                    method="post"
+                    action="/avaliacoes"
+                    class="form-grid"
+                >
+
+                    <div class="field">
+                        <label>Estudante e vaga</label>
+
+                        <select name="candidatura" required>
+                            <% candidaturas.forEach(c => { %>
+                                <option value="<%= c._id %>">
+                                    <%= c.estudante.usuario.nome %>
+                                    —
+                                    <%= c.vaga.titulo %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Nota</label>
+
+                        <select name="nota" required>
+                            <% [5,4,3,2,1].forEach(n => { %>
+                                <option value="<%= n %>">
+                                    <%= n %> estrela(s)
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label>Comentário</label>
+                        <textarea name="comentario" required></textarea>
+                    </div>
+
+                    <button class="btn">
+                        Registrar avaliação
+                    </button>
+
+                </form>
+
+            </div>
+        <% } %>
+
+        <div class="grid" style="margin-top:24px">
+
+            <% avaliacoes.forEach(a => { %>
+                <article class="card">
+
+                    <div class="stars">
+                        <%= '★'.repeat(a.nota) %>
+                        <%= '☆'.repeat(5 - a.nota) %>
+                    </div>
+
+                    <h3>
+                        <%= a.estudante?.usuario?.nome %>
+                    </h3>
+
+                    <p>
+                        <%= a.comentario %>
+                    </p>
+
+                    <small class="muted">
+                        <%= a.vaga?.titulo %>
+                        ·
+                        <%= formatarData(a.data) %>
+                    </small>
+
+                </article>
+            <% }) %>
+
+        </div>
+
+        <% if (!candidaturas.length && !avaliacoes.length) { %>
+            <div class="empty">
+                Nenhum estudante selecionado para avaliação.
+            </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>
+```

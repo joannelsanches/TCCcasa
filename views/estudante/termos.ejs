@@ -1,0 +1,155 @@
+<%- include('../partials/cabecalho', { titulo: 'Termos de compromisso' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Termos de compromisso</h1>
+
+            <p class="muted">
+                Solicite o termo após ser selecionado e envie os documentos obrigatórios.
+            </p>
+        </div>
+
+        <% if (selecionadas.length) { %>
+
+            <div class="card form-card">
+                <h2>Solicitar novo termo</h2>
+
+                <form method="post" action="/termos" class="form-grid">
+
+                    <div class="field">
+                        <label>Candidatura selecionada</label>
+
+                        <select name="candidatura" required>
+                            <% selecionadas.forEach(c => { %>
+                                <option value="<%= c._id %>">
+                                    <%= c.vaga.titulo %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label>Plano de atividades</label>
+
+                        <textarea name="planoAtividades" required></textarea>
+                    </div>
+
+                    <button class="btn">
+                        Solicitar análise
+                    </button>
+
+                </form>
+            </div>
+
+        <% } %>
+
+        <div class="stack" style="margin-top:24px">
+
+            <% termos.forEach(termo => { %>
+
+                <article class="card">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <h2>
+                                <%= termo.candidatura?.vaga?.titulo %>
+                            </h2>
+
+                            <p class="muted">
+                                Solicitado em
+                                <%= formatarData(termo.dataSolicitacao) %>
+                            </p>
+                        </div>
+
+                        <span class="badge <%= termo.status.toLowerCase() %>">
+                            <%= termo.status %>
+                        </span>
+
+                    </div>
+
+                    <p>
+                        <strong>Plano:</strong>
+                        <%= termo.planoAtividades %>
+                    </p>
+
+                    <% if (termo.justificativa) { %>
+
+                        <div class="alert erro">
+                            <strong>Justificativa:</strong>
+                            <%= termo.justificativa %>
+                        </div>
+
+                    <% } %>
+
+                    <h3>Documentos</h3>
+
+                    <ul>
+                        <% termo.documentos.forEach(d => { %>
+
+                            <li>
+                                <a href="/termos/documentos/<%= d._id %>">
+                                    <%= d.nome %> — <%= d.nomeOriginal %>
+                                </a>
+
+                                <span class="badge <%= d.validado ? 'aprovado' : 'pendente' %>">
+                                    <%= d.validado ? 'VALIDADO' : 'PENDENTE' %>
+                                </span>
+                            </li>
+
+                        <% }) %>
+                    </ul>
+
+                    <form
+                        method="post"
+                        action="/termos/<%= termo._id %>/documentos"
+                        enctype="multipart/form-data"
+                        class="form-grid"
+                    >
+
+                        <div class="field">
+                            <label>Nome do documento</label>
+
+                            <input
+                                name="nomeDocumento"
+                                required
+                            >
+                        </div>
+
+                        <div class="field">
+                            <label>Arquivo PDF</label>
+
+                            <input
+                                type="file"
+                                name="documento"
+                                accept="application/pdf,.pdf"
+                                required
+                            >
+                        </div>
+
+                        <button class="btn btn-secondary">
+                            Enviar documento
+                        </button>
+
+                    </form>
+
+                </article>
+
+            <% }) %>
+
+        </div>
+
+        <% if (!termos.length && !selecionadas.length) { %>
+
+            <div class="empty">
+                Quando uma candidatura for selecionada, você poderá solicitar o termo aqui.
+            </div>
+
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

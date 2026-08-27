@@ -1,0 +1,15 @@
+import express from 'express';
+import VagaController from '../controllers/VagaController.js';
+import { autenticado, autorizar } from '../middlewares/autenticacao.js';
+const router = express.Router();
+router.get('/vagas', VagaController.listar);
+router.get('/vagas/:id', VagaController.detalhes);
+router.get('/empresa/vagas', autenticado, autorizar('EMPRESA'), VagaController.minhas);
+router.get('/empresa/vagas/nova', autenticado, autorizar('EMPRESA'), VagaController.formulario);
+router.post('/empresa/vagas/nova', autenticado, autorizar('EMPRESA'), VagaController.criar);
+router.get('/empresa/vagas/:id/editar', autenticado, autorizar('EMPRESA'), VagaController.formulario);
+router.post('/empresa/vagas/:id/editar', autenticado, autorizar('EMPRESA'), VagaController.editar);
+router.post('/empresa/vagas/:id/situacao', autenticado, autorizar('EMPRESA'), VagaController.alterarSituacao);
+router.get('/admin/vagas', autenticado, autorizar('ADMIN'), VagaController.pendentes);
+router.post('/admin/vagas/:id/validar', autenticado, autorizar('ADMIN'), VagaController.validar);
+export default router;

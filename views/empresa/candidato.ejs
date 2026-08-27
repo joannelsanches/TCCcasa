@@ -1,0 +1,112 @@
+<%- include('../partials/cabecalho', { titulo: 'Detalhes do candidato' }) %>
+
+<section class="section">
+    <div class="container split">
+
+        <article class="card">
+            <span class="eyebrow">Candidato</span>
+
+            <h1>
+                <%= candidatura.estudante.usuario.nome %>
+            </h1>
+
+            <div class="details-list">
+
+                <div>
+                    <strong>Curso</strong>
+                    <%= candidatura.estudante.curso?.nome %>
+                </div>
+
+                <div>
+                    <strong>Campus</strong>
+                    <%= candidatura.estudante.campus?.nome %>
+                </div>
+
+                <div>
+                    <strong>Semestre</strong>
+                    <%= candidatura.estudante.semestre || '—' %>
+                </div>
+
+                <div>
+                    <strong>Turno</strong>
+                    <%= candidatura.estudante.turno || '—' %>
+                </div>
+
+                <div>
+                    <strong>Disponibilidade</strong>
+                    <%= candidatura.estudante.disponibilidade || '—' %>
+                </div>
+
+                <div>
+                    <strong>Competências</strong>
+                    <%= candidatura.estudante.competencias.join(', ') || '—' %>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <% if (candidatura.estudante.curriculo?.caminho) { %>
+                    <a
+                        class="btn btn-secondary"
+                        href="/estudantes/<%= candidatura.estudante._id %>/curriculo"
+                    >
+                        Baixar currículo
+                    </a>
+                <% } else { %>
+                    <span class="muted">
+                        Currículo não enviado.
+                    </span>
+                <% } %>
+            </div>
+        </article>
+
+        <aside class="card">
+
+            <h2>Resultado</h2>
+
+            <p>
+                Vaga:
+                <strong>
+                    <%= candidatura.vaga.titulo %>
+                </strong>
+            </p>
+
+            <form
+                method="post"
+                action="/empresa/candidaturas/<%= candidatura._id %>/status"
+                class="stack"
+            >
+
+                <div class="field">
+                    <label>Status</label>
+
+                    <select name="status">
+                        <% ['EM_ANALISE','SELECIONADO','NAO_SELECIONADO'].forEach(s => { %>
+                            <option
+                                value="<%= s %>"
+                                <%= candidatura.status == s ? 'selected' : '' %>
+                            >
+                                <%= s.replaceAll('_',' ') %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Observação</label>
+
+                    <textarea name="observacaoEmpresa"><%= candidatura.observacaoEmpresa || '' %></textarea>
+                </div>
+
+                <button class="btn">
+                    Atualizar resultado
+                </button>
+
+            </form>
+
+        </aside>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

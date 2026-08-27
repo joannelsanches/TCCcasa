@@ -1,0 +1,93 @@
+<%- include('../partials/cabecalho', { titulo: 'Cadastro de empresa' }) %>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="page-header">
+                <h1>Cadastro de empresa</h1>
+                <p class="muted">
+                    Depois do cadastro, o setor de estágios validará o convênio.
+                </p>
+            </div>
+
+            <div class="card form-card">
+                <form method="post" class="form-grid">
+
+                    <div class="field">
+                        <label>Nome do usuário responsável *</label>
+                        <input name="nome" required>
+                    </div>
+
+                    <div class="field">
+                        <label>E-mail de acesso *</label>
+                        <input name="email" type="email" required>
+                    </div>
+
+                    <div class="field">
+                        <label>CNPJ *</label>
+                        <input name="cnpj" inputmode="numeric" maxlength="18" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Razão social *</label>
+                        <input name="razaoSocial" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Nome fantasia *</label>
+                        <input name="nomeFantasia" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Telefone *</label>
+                        <input name="telefone" required>
+                    </div>
+
+                    <div class="field full">
+                        <label>Endereço completo *</label>
+                        <input name="endereco" required>
+                    </div>
+
+                    <div class="field">
+                        <label>E-mail de contato</label>
+                        <input name="emailContato" type="email">
+                    </div>
+
+                    <div class="field">
+                        <label>Nome do responsável *</label>
+                        <input name="responsavelNome" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Cargo do responsável *</label>
+                        <input name="responsavelCargo" required>
+                    </div>
+
+                    <div class="field full">
+                        <label>Descrição da empresa</label>
+                        <textarea name="descricao"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label>Senha *</label>
+                        <input name="senha" type="password" minlength="8" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Confirmar senha *</label>
+                        <input name="confirmarSenha" type="password" minlength="8" required>
+                    </div>
+
+                    <div class="field full">
+                        <button class="btn">
+                            Cadastrar empresa
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <%- include('../partials/rodape') %>

@@ -1,0 +1,74 @@
+<%- include('../partials/cabecalho', { titulo: 'Termos da empresa' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Termos de compromisso</h1>
+
+            <p class="muted">
+                Acompanhe os termos vinculados aos estudantes selecionados.
+            </p>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Estudante</th>
+                        <th>Vaga</th>
+                        <th>Solicitação</th>
+                        <th>Documentos</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% termos.forEach(t => { %>
+                        <tr>
+
+                            <td>
+                                <%= t.estudante.usuario.nome %>
+                            </td>
+
+                            <td>
+                                <%= t.candidatura?.vaga?.titulo %>
+                            </td>
+
+                            <td>
+                                <%= formatarData(t.dataSolicitacao) %>
+                            </td>
+
+                            <td>
+                                <% t.documentos.forEach(d => { %>
+                                    <a href="/termos/documentos/<%= d._id %>">
+                                        <%= d.nome %>
+                                    </a>
+                                    <br>
+                                <% }) %>
+                            </td>
+
+                            <td>
+                                <span class="badge <%= t.status.toLowerCase() %>">
+                                    <%= t.status %>
+                                </span>
+                            </td>
+
+                        </tr>
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+        <% if (!termos.length) { %>
+            <div class="empty">
+                Nenhum termo relacionado à empresa.
+            </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

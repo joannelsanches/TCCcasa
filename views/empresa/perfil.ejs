@@ -1,0 +1,103 @@
+<%- include('../partials/cabecalho', { titulo: 'Perfil da empresa' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Perfil da empresa</h1>
+
+            <p class="muted">
+                CNPJ e razão social ficam bloqueados para preservar o cadastro validado.
+            </p>
+        </div>
+
+        <div class="card form-card">
+            <form method="post" class="form-grid">
+
+                <div class="field">
+                    <label>CNPJ</label>
+                    <input
+                        value="<%= empresa.cnpj %>"
+                        disabled
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Razão social</label>
+                    <input
+                        value="<%= empresa.razaoSocial %>"
+                        disabled
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Nome fantasia</label>
+                    <input
+                        name="nomeFantasia"
+                        value="<%= empresa.nomeFantasia %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Telefone</label>
+                    <input
+                        name="telefone"
+                        value="<%= empresa.telefone %>"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <label>Endereço</label>
+                    <input
+                        name="endereco"
+                        value="<%= empresa.endereco %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>E-mail de contato</label>
+                    <input
+                        name="emailContato"
+                        type="email"
+                        value="<%= empresa.emailContato %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Nome do responsável</label>
+                    <input
+                        name="responsavelNome"
+                        value="<%= empresa.responsavel.nome %>"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Cargo do responsável</label>
+                    <input
+                        name="responsavelCargo"
+                        value="<%= empresa.responsavel.cargo %>"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <label>Descrição</label>
+                    <textarea name="descricao"><%= empresa.descricao || '' %></textarea>
+                </div>
+
+                <button class="btn">
+                    Salvar alterações
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

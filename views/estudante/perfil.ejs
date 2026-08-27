@@ -1,0 +1,197 @@
+<%- include('../partials/cabecalho', { titulo: 'Perfil acadêmico' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Perfil acadêmico</h1>
+
+            <p class="muted">
+                Mantenha estes dados atualizados para receber vagas compatíveis.
+            </p>
+        </div>
+
+        <div class="split">
+
+            <div class="card">
+                <form method="post" class="form-grid">
+
+                    <div class="field">
+                        <label>Nome</label>
+                        <input
+                            value="<%= estudante.usuario.nome %>"
+                            disabled
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>CPF</label>
+                        <input
+                            value="<%= estudante.cpf %>"
+                            disabled
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Matrícula</label>
+                        <input
+                            value="<%= estudante.matricula %>"
+                            disabled
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Curso *</label>
+
+                        <select name="curso" required>
+                            <% cursos.forEach(c => { %>
+                                <option
+                                    value="<%= c._id %>"
+                                    <%= String(estudante.curso?._id) == String(c._id) ? 'selected' : '' %>
+                                >
+                                    <%= c.nome %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Campus *</label>
+
+                        <select name="campus" required>
+                            <% campi.forEach(c => { %>
+                                <option
+                                    value="<%= c._id %>"
+                                    <%= String(estudante.campus?._id) == String(c._id) ? 'selected' : '' %>
+                                >
+                                    <%= c.nome %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Semestre/período</label>
+
+                        <input
+                            name="semestre"
+                            type="number"
+                            min="1"
+                            max="12"
+                            value="<%= estudante.semestre || '' %>"
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Turno</label>
+
+                        <select name="turno">
+                            <option value="">Selecione</option>
+
+                            <% ['MANHÃ','TARDE','NOITE','INTEGRAL'].forEach(t => { %>
+                                <option
+                                    <%= estudante.turno == t ? 'selected' : '' %>
+                                >
+                                    <%= t %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label>Disponibilidade</label>
+
+                        <textarea name="disponibilidade"><%= estudante.disponibilidade || '' %></textarea>
+                    </div>
+
+                    <div class="field full">
+                        <label>Competências</label>
+
+                        <input
+                            name="competencias"
+                            value="<%= estudante.competencias.join(', ') %>"
+                        >
+
+                        <small class="help">
+                            Separe por vírgulas.
+                        </small>
+                    </div>
+
+                    <div class="field full">
+                        <button class="btn">
+                            Salvar perfil
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <aside class="card">
+
+                <h2>Currículo</h2>
+
+                <% if (estudante.curriculo?.caminho) { %>
+
+                    <p>
+                        Arquivo atual:
+                        <strong>
+                            <%= estudante.curriculo.nomeOriginal %>
+                        </strong>
+                    </p>
+
+                    <p class="muted">
+                        Enviado em
+                        <%= formatarData(estudante.curriculo.dataEnvio) %>
+                    </p>
+
+                    <a href="/estudantes/<%= estudante._id %>/curriculo">
+                        Baixar meu currículo
+                    </a>
+
+                <% } else { %>
+
+                    <p class="muted">
+                        Você ainda não enviou um currículo.
+                    </p>
+
+                <% } %>
+
+                <form
+                    method="post"
+                    action="/estudante/curriculo"
+                    enctype="multipart/form-data"
+                    class="stack"
+                    style="margin-top:20px"
+                >
+
+                    <div class="field">
+                        <label>Currículo em PDF</label>
+
+                        <input
+                            type="file"
+                            name="curriculo"
+                            accept="application/pdf,.pdf"
+                            required
+                        >
+
+                        <small class="help">
+                            Somente PDF. Limite definido no .env.
+                        </small>
+                    </div>
+
+                    <button class="btn">
+                        <%= estudante.curriculo?.caminho
+                            ? 'Atualizar currículo'
+                            : 'Enviar currículo' %>
+                    </button>
+
+                </form>
+
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>

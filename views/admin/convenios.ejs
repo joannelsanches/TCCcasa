@@ -1,0 +1,130 @@
+```ejs
+<%- include('../partials/cabecalho', { titulo: 'Convênios' }) %>
+
+<section class="section">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Convênios</h1>
+            <p class="muted">
+                Registre e atualize os convênios entre empresas e o IFSul.
+            </p>
+        </div>
+
+        <div class="card form-card">
+            <h2>Novo convênio</h2>
+
+            <form method="post" class="form-grid">
+
+                <div class="field">
+                    <label>Empresa</label>
+                    <select name="empresa" required>
+                        <option value="">Selecione</option>
+
+                        <% empresas.forEach(e => { %>
+                            <option value="<%= e._id %>">
+                                <%= e.nomeFantasia %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Número</label>
+                    <input name="numero" required>
+                </div>
+
+                <div class="field">
+                    <label>Data inicial</label>
+                    <input type="date" name="dataInicial" required>
+                </div>
+
+                <div class="field">
+                    <label>Data final</label>
+                    <input type="date" name="dataFinal" required>
+                </div>
+
+                <div class="field">
+                    <label>Status</label>
+                    <select name="status">
+                        <% ['PENDENTE','ATIVO','INATIVO','VENCIDO'].forEach(s => { %>
+                            <option>
+                                <%= s %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <button class="btn">Registrar convênio</button>
+
+            </form>
+        </div>
+
+        <div class="table-wrap" style="margin-top:24px">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Empresa</th>
+                        <th>Vigência</th>
+                        <th>Status</th>
+                        <th>Atualizar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% convenios.forEach(c => { %>
+                        <tr>
+
+                            <td>
+                                <%= c.numero %>
+                            </td>
+
+                            <td>
+                                <%= c.empresa?.nomeFantasia %>
+                            </td>
+
+                            <td>
+                                <%= formatarData(c.dataInicial) %>
+                                a
+                                <%= formatarData(c.dataFinal) %>
+                            </td>
+
+                            <td>
+                                <span class="badge <%= c.status.toLowerCase() %>">
+                                    <%= c.status %>
+                                </span>
+                            </td>
+
+                            <td>
+                                <form
+                                    method="post"
+                                    action="/admin/convenios/<%= c._id %>/status"
+                                >
+                                    <select name="status">
+                                        <% ['PENDENTE','ATIVO','INATIVO','VENCIDO'].forEach(s => { %>
+                                            <option <%= c.status == s ? 'selected' : '' %>>
+                                                <%= s %>
+                                            </option>
+                                        <% }) %>
+                                    </select>
+
+                                    <button class="btn btn-small">
+                                        Salvar
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</section>
+
+<%- include('../partials/rodape') %>
+```
