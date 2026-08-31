@@ -1,5 +1,6 @@
 :root {
   --verde: #64A002;
+  --verde-legal: #88ac44;
   --verde-escuro: #487700;
   --verde-claro: #B9D394;
   --coral: #FE5668;
@@ -180,6 +181,8 @@ textarea {
 
 .art-card {
   position: absolute;
+  top: 0px;
+  left: 20px;
   background: white;
   border: 1px solid var(--borda);
   box-shadow: var(--sombra);
@@ -188,16 +191,18 @@ textarea {
   width: 80%;
 }
 
-.art-card:nth-child(1) {
-  top: 0;
-  right: 0;
-}
 
-.art-card:nth-child(2) {
-  bottom: 0;
-  left: 0;
-  background: var(--verde);
+.art-card2 {
+  position: absolute;
+  top: 160px;
+  left: 170px;
+  background: var(--verde-legal);
   color: white;
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra);
+  border-radius: 20px;
+  padding: 24px;
+  width: 80%;
 }
 
 .art-dots {
