@@ -125,4 +125,10 @@ export default class VagaController {
     if (destinatarios.length) await Notificacao.insertMany(destinatarios.map((id) => ({ destinatario: id, titulo: status === 'ABERTA' ? 'Nova vaga compatível' : 'Vaga reprovada', mensagem: status === 'ABERTA' ? `A vaga “${vaga.titulo}” combina com seu curso.` : `A vaga “${vaga.titulo}” precisa de ajustes.`, link: status === 'ABERTA' ? `/vagas/${vaga._id}` : '/empresa/vagas' })));
     mensagem(req, 'sucesso', `Vaga ${status === 'ABERTA' ? 'aprovada' : 'reprovada'}.`); res.redirect('/admin/vagas');
   }
+
+  static async excluir(req, res) {
+    const empresa = await empresaLogada(req);
+    const vaga = await Vaga.findOneAndDelete({ _id: req.params.id, empresa: empresa._id });
+    mensagem(req, 'sucesso', 'Vaga excluída permanentemente.'); res.redirect('/empresa/vagas');
+  }
 }
