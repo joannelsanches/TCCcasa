@@ -42,12 +42,6 @@ const schema = new mongoose.Schema({
       required: true,
       trim: true
     },
-    planoAtividasdes: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'PlanoAtividades',
-      required: true
-      
-    },
     cursosCompativeis: [
       {
         type: mongoose.Schema.Types.ObjectId,
