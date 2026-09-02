@@ -13,7 +13,6 @@ import '../models/Candidatura.js';
 import '../models/TermoCompromisso.js';
 import '../models/Convenio.js';
 import '../models/Avaliacao.js';
-import '../models/Notificacao.js';
 
 function rotasDaCamada(camada, prefixo = '') {
   if (camada.route) return camada.route.stack.map((item) => `${Object.keys(item.method ? { [item.method]: true } : camada.route.methods).join(',').toUpperCase()} ${prefixo}${camada.route.path}`);
