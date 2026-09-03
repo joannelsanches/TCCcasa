@@ -122,17 +122,6 @@
                         required
                     ><%= vaga?.requisitos || '' %></textarea>
                 </div>
-                <div>
-                    <label>Plano de Atividades *</label>
-                    <select name="planoAtividades" required>
-                        <option value="">Selecione um plano</option>
-                        <% planosAtividades.forEach(p => { %>
-                            <option value="<%= p._id %>" <%= vaga?.planoAtividasdes && String(vaga.planoAtividasdes) === String(p._id) ? 'selected' : '' %>>
-                                <%= p.nome %>
-                            </option>
-                        <% }) %>
-                    </select>
-                </div>
 
                 <div class="field full">
                     <label>Cursos compatíveis *</label>

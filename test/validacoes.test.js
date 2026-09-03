@@ -18,7 +18,7 @@ test('valida CNPJ calculado e rejeita formato curto', () => {
 });
 
 test('restringe cadastro ao domínio institucional configurado', () => {
-  process.env.DOMINIOS_INSTITUCIONAIS = 'ifsul.edu.br';
-  assert.equal(emailInstitucionalValido('estudante@bage.ifsul.edu.br'), true);
+  process.env.DOMINIOS_INSTITUCIONAIS = 'academico.ifsul.edu.br';
+  assert.equal(emailInstitucionalValido('estudante.bg00@academico.ifsul.edu.br'), true);
   assert.equal(emailInstitucionalValido('estudante@exemplo.com'), false);
 });

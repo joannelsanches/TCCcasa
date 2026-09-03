@@ -199,7 +199,7 @@ textarea {
   background: var(--verde-legal);
   color: white;
   border: 1px solid var(--borda);
-  box-shadow: var(--sombra);
+  box-shadow: var(--v);
   border-radius: 20px;
   padding: 24px;
   width: 80%;
